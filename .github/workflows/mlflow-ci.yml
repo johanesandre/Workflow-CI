@@ -1,0 +1,44 @@
+name: MLflow CI - Wine Quality SVM
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "MLProject/**"
+      - ".github/workflows/**"
+  workflow_dispatch: {}
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: MLProject
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.7"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mlflow==2.19.0 pandas==2.2.3 numpy==1.26.4 \
+                      scikit-learn==1.5.2 matplotlib==3.9.2 seaborn==0.13.2
+
+      - name: Run MLflow Project (retrain model)
+        run: |
+          mlflow run . --env-manager=local -P data_dir=winequality_preprocessing -P cv_folds=5
+
+      - name: Commit and push trained model artifacts back to repo
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "MLProject/mlruns"
+          message: "ci: retrain model dan simpan artefak MLflow [skip ci]"
+          default_author: github_actions
+          push: true
