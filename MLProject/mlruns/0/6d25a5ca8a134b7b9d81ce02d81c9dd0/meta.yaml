@@ -1,0 +1,15 @@
+artifact_uri: file:///home/runner/work/Workflow-CI/Workflow-CI/MLProject/mlruns/0/6d25a5ca8a134b7b9d81ce02d81c9dd0/artifacts
+end_time: 1786971440271
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6d25a5ca8a134b7b9d81ce02d81c9dd0
+run_name: defiant-chimp-303
+run_uuid: 6d25a5ca8a134b7b9d81ce02d81c9dd0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1786971403882
+status: 3
+tags: []
+user_id: runner
