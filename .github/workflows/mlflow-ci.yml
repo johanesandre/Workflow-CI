@@ -36,7 +36,7 @@ jobs:
 
       - name: Run MLflow Project (retrain model)
         run: |
-          mlflow run . --env-manager=local -P data_dir=winequality_preprocessing -P cv_folds=5
+          mlflow run . --env-manager=local -P data_dir=mushroom_preprocessing -P cv_folds=5
 
       - name: Commit and push trained model artifacts back to repo
         uses: EndBug/add-and-commit@v9
