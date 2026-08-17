@@ -1,4 +1,4 @@
-name: wine_quality_svm_ci
+name: mushroom_classification_svm_ci
 channels:
   - conda-forge
 dependencies:

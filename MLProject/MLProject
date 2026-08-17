@@ -1,10 +1,10 @@
-name: wine_quality_svm_ci
+name: mushroom_classification_svm_ci
 
 conda_env: conda.yaml
 
 entry_points:
   main:
     parameters:
-      data_dir: {type: str, default: "winequality_preprocessing"}
+      data_dir: {type: str, default: "mushroom_preprocessing"}
       cv_folds: {type: int, default: 5}
     command: "python modelling.py --data_dir {data_dir} --cv_folds {cv_folds}"

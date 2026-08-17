@@ -6,7 +6,7 @@ parameter lewat command line (sesuai spesifikasi entry point pada file
 `MLProject`) agar bisa dipanggil otomatis oleh `mlflow run` di GitHub Actions.
 
 Dipanggil oleh MLProject dengan:
-    mlflow run . -P data_dir=winequality_preprocessing -P cv_folds=5
+    mlflow run . -P data_dir=mushroom_preprocessing -P cv_folds=5
 """
 
 import argparse
@@ -31,8 +31,8 @@ from sklearn.metrics import (
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 
-TARGET_COL = "quality_label"
-EXPERIMENT_NAME = "Wine_Quality_SVM_CI"
+TARGET_COL = "poisonous_label"
+EXPERIMENT_NAME = "Mushroom_Classification_SVM_CI"
 
 PARAM_GRID = {
     "C": [0.1, 1, 10],
@@ -56,7 +56,7 @@ def load_data(data_dir: str):
 def log_confusion_matrix_artifact(y_test, y_pred, out_path):
     fig, ax = plt.subplots(figsize=(5, 4))
     cm = confusion_matrix(y_test, y_pred)
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Bad (0)", "Good (1)"])
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Edible (0)", "Poisonous (1)"])
     disp.plot(ax=ax, cmap="Blues", colorbar=False)
     ax.set_title("Confusion Matrix - SVC (CI run)")
     fig.tight_layout()
@@ -65,9 +65,6 @@ def log_confusion_matrix_artifact(y_test, y_pred, out_path):
 
 
 def main(data_dir: str, cv_folds: int):
-    # Jika dijalankan lewat `mlflow run`, MLflow sudah membuat active run
-    # sendiri (env var MLFLOW_RUN_ID sudah ter-set) - jangan panggil
-    # set_experiment()/start_run() dengan parameter baru karena akan bentrok.
     running_inside_mlflow_run = "MLFLOW_RUN_ID" in os.environ
 
     if not running_inside_mlflow_run:
@@ -135,7 +132,7 @@ def main(data_dir: str, cv_folds: int):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_dir", type=str, default="winequality_preprocessing")
+    parser.add_argument("--data_dir", type=str, default="mushroom_preprocessing")
     parser.add_argument("--cv_folds", type=int, default=5)
     args = parser.parse_args()
 
